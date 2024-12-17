@@ -1,0 +1,25 @@
+﻿@{
+    ViewData["Title"] = "Instructor Login";
+}
+
+<h2>Login</h2>
+
+<form asp-action="Login" method="post">
+    <div class="form-group">
+        <label for="InstructorId">Instructor ID</label>
+        <input type="number" class="form-control" id="InstructorId" name="InstructorId" placeholder="Enter your Instructor ID" required />
+        @if (ViewData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger mt-3">
+                @ViewData["ErrorMessage"]
+            </div>
+        }
+    </div>
+    <button type="submit" class="btn btn-primary">Login</button>
+</form>
+@if (ViewData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger mt-3">
+        @ViewData["ErrorMessage"]
+    </div>
+}

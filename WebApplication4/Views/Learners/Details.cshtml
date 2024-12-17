@@ -1,0 +1,108 @@
+﻿@model WebApplication4.Models.Learner
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Learner</h4>
+    <hr />
+    <dl class="row">
+        <!-- Learner ID -->
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.LearnerId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.LearnerId)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Gender)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Gender)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.BirthDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.BirthDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Country)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Country)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CulturalBackground)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CulturalBackground)
+        </dd>
+    </dl>
+</div>
+
+<!-- Add Post to Discussion Forum Button -->
+
+
+
+<!-- Create Goals Button -->
+<div class="mt-3">
+    <a asp-controller="LearningGoals"
+       asp-action="Create"
+       class="btn btn-success">
+        Create Goals
+    </a>
+</div>
+
+<!-- Discussion Form Button -->
+<a asp-controller="Learners"
+   asp-route-learnerId="@Model.LearnerId"
+   asp-action="AddPost"
+   class="btn btn-info">
+    Add Post to Discussion Forum
+</a>
+
+
+
+
+
+<div class="mt-3">
+    <a asp-action="Edit" asp-route-id="@Model?.LearnerId" class="btn btn-primary">Edit</a>
+</div>
+
+
+
+
+<div class="mt-3">
+    <a asp-controller="PersonalizationProfiles"
+       asp-action="Create"
+       asp-route-id="@Model.LearnerId"
+       class="btn btn-success">
+        Create PersonalizationProfiles
+    </a>
+</div>
+
+
+<div class="mt-3">
+    <form asp-action="Delete" asp-route-id="@Model?.LearnerId" method="post" onsubmit="return confirm('Are you sure you want to delete this learner?');">
+        <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
+</div>
+
+

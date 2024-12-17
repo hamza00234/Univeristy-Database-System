@@ -1,0 +1,88 @@
+﻿@model WebApplication4.Models.Instructor
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Instructor</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.LatestQualification)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.LatestQualification)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ExpertiseArea)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ExpertiseArea)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <!-- Display InstructorId here -->
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.instructorId) <!-- Add this line to display the InstructorId -->
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.instructorId) <!-- Add this line to display the InstructorId -->
+        </dd>
+    </dl>
+</div>
+
+<!-- Create Learning Path Button -->
+<div class="mt-3">
+    <a asp-controller="LearningPaths"
+       asp-action="Create"
+       asp-route-instructorId="@Model.instructorId"
+       class="btn btn-success">
+        Create Learning Path
+    </a>
+</div>
+
+<div class="mt-3">
+    <a asp-action="Edit" asp-route-id="@Model?.instructorId" class="btn btn-primary">Edit</a>
+</div>
+
+<a asp-action="AddPost"
+   asp-route-learnerId="@Model.instructorId"
+   class="btn btn-info">
+    Add Post to Discussion Forum
+</a>
+<div class="mt-3">
+    <!-- Redirect to DiscussionForums/Create -->
+    <a asp-controller="DiscussionForums"
+       asp-action="Create"
+       asp-route-instructorId="@Model.instructorId"
+       class="btn btn-primary">
+        Create Discussion Forum
+    </a>
+</div>
+
+<div class="mt-3">
+    <!-- Redirect to Modules/Details -->
+    <a asp-controller="Modules"
+       asp-action="Details"
+       asp-route-instructorId="@Model.instructorId"
+       class="btn btn-primary">
+        View Module Details
+    </a>
+</div>

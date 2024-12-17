@@ -1,0 +1,173 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using WebApplication4.Models;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace WebApplication4.Controllers
+{
+    public class LearnerController : Controller
+    {
+        private readonly ProjectDbContext _context;
+
+        // Constructor to inject the ApplicationDbContext into the controller
+        public LearnerController(ProjectDbContext context)
+        {
+            _context = context;
+        }
+
+        // GET: Learner/EnrolledCourses/5
+        // Action to retrieve the list of courses the learner is enrolled in.
+        public async Task<IActionResult> EnrolledCourses(int learnerId)
+        {
+            // Fetch the learner along with their enrollments and the associated courses
+            var learner = await _context.Learners
+                .Include(l => l.CourseEnrollments) // Include the enrollments
+                    .ThenInclude(ce => ce.Course)   // Include the related course details
+                .FirstOrDefaultAsync(l => l.LearnerId == learnerId);
+
+            if (learner == null)
+            {
+                return NotFound(); // If learner not found, return a 404
+            }
+
+            // Get the list of courses the learner is enrolled in
+            var courses = learner.CourseEnrollments
+                .Select(ce => ce.Course)
+                .ToList();
+
+            return View(courses); // Return the list of courses to the view
+        }
+
+        // GET: Learner/Details/5
+        // Action to view the learner's details
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var learner = await _context.Learners
+                .FirstOrDefaultAsync(m => m.LearnerId == id);
+
+            if (learner == null)
+            {
+                return NotFound();
+            }
+
+            return View(learner); // Return the learner details to the view
+        }
+
+        // GET: Learner/Create
+        // Action to display the form to create a new learner
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: Learner/Create
+        // Action to handle the form submission for creating a new learner
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("LearnerId,FirstName,LastName,Gender,BirthDate,Country,CulturalBackground")] Learner learner)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(learner);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index)); // Redirect to the index after successful creation
+            }
+            return View(learner); // Return to the same view if validation fails
+        }
+
+        // GET: Learner/Edit/5
+        // Action to display the form to edit an existing learner
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var learner = await _context.Learners.FindAsync(id);
+            if (learner == null)
+            {
+                return NotFound();
+            }
+            return View(learner); // Return the learner data for editing
+        }
+
+        // POST: Learner/Edit/5
+        // Action to handle the form submission for editing a learner
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("LearnerId,FirstName,LastName,Gender,BirthDate,Country,CulturalBackground")] Learner learner)
+        {
+            if (id != learner.LearnerId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(learner);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!LearnerExists(learner.LearnerId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index)); // Redirect to the index after editing
+            }
+            return View(learner); // Return to the same view if validation fails
+        }
+
+        // GET: Learner/Delete/5
+        // Action to confirm the deletion of a learner
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var learner = await _context.Learners
+                .FirstOrDefaultAsync(m => m.LearnerId == id);
+
+            if (learner == null)
+            {
+                return NotFound();
+            }
+
+            return View(learner); // Return the learner details to confirm deletion
+        }
+
+        // POST: Learner/Delete/5
+        // Action to delete the learner
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var learner = await _context.Learners.FindAsync(id);
+            _context.Learners.Remove(learner);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index)); // Redirect to the index after deletion
+        }
+
+        // Check if the learner exists
+        private bool LearnerExists(int id)
+        {
+            return _context.Learners.Any(e => e.LearnerId == id);
+        }
+    }
+}

@@ -1,0 +1,32 @@
+﻿@model WebApplication4.Models.Course
+
+@{
+    ViewData["Title"] = "Course Modules";
+}
+
+<h2>@Model.Title - Modules</h2>
+
+<p><strong>Description:</strong> @Model.Description</p>
+
+@if (Model.Modules.Any())
+{
+    <h3>Modules:</h3>
+    <ul>
+        @foreach (var module in Model.Modules)
+        {
+            <li>
+                <strong>@module.Title</strong>
+                <br />
+                <!-- Assuming 'module' has a 'Title' property, change to use actual properties -->
+                @* Replace with available properties, for example *@
+                <p>@module.Title</p> <!-- Modify based on actual module properties -->
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>No modules available for this course.</p>
+}
+
+<a href="@Url.Action("Index", "Courses")">Back to Courses</a>

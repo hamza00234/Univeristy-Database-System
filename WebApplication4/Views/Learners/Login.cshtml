@@ -1,0 +1,19 @@
+﻿@{
+    ViewData["Title"] = "Learner Login";
+}
+
+<h2>Login</h2>
+
+<form asp-action="Login" method="post">
+    <div class="form-group">
+        <label for="LearnerId">Learner ID</label>
+        <input type="number" class="form-control" id="LearnerId" name="LearnerId" placeholder="Enter your Learner ID" required />
+        <!-- Show error message if any -->
+        @if (ViewData["ErrorMessage"] != null)
+        {
+            <span class="text-danger">@ViewData["ErrorMessage"]</span>
+        }
+    </div>
+
+    <button type="submit" class="btn btn-primary">Login</button>
+</form>

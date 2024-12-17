@@ -1,0 +1,24 @@
+﻿@{
+    ViewData["Title"] = "Add Post";
+    var learnerId = ViewData["LearnerID"];
+    var discussionId = ViewData["DiscussionID"];
+}
+
+<h1>Add Post</h1>
+
+<form asp-action="AddPost" method="post">
+    <input type="hidden" name="LearnerID" value="@learnerId" />
+
+    <div class="form-group">
+        <label for="DiscussionID">Discussion ID</label>
+        <input type="number" name="DiscussionID" value="@discussionId" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+        <label for="Post">Post Content</label>
+        <textarea name="Post" class="form-control" rows="5" required></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Submit Post</button>
+    <a asp-action="Details" asp-route-id="@learnerId" class="btn btn-secondary mt-3">Back</a>
+</form>
